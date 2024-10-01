@@ -15,7 +15,7 @@ function App() {
             <div class="w-full max-w-lg m-auto">
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <Input type="text" label="Destination URL" isRequired={true} />
-                    <Input type="text" label="Custom URL (optional)" />
+                    <Input type="text" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" />
                     <Input type="password" label="Password Protection (optional)" />
                     <Input type="date" label="Link Expiration (optional)" />
                     <Button label="Shorten URL" />
