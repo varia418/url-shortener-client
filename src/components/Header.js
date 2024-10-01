@@ -11,9 +11,8 @@ function Header() {
         <>
             <nav className="flex justify-between p-7">
                 <img
-                    src="https://shuffle.dev/zeus-assets/logo/logo-zeus-red.svg"
-                    width={70}
-                    height={70}
+                    src="logo.png"
+                    width={150}
                     alt="logo"
                 />
 
@@ -48,9 +47,8 @@ function Header() {
                 <sidebar className="md:hidden fixed flex flex-col justify-between inset-0 bg-white w-5/6 p-5">
                     <div className="flex justify-between mb-7">
                         <img
-                            src="https://shuffle.dev/zeus-assets/logo/logo-zeus-red.svg"
-                            width={70}
-                            height={70}
+                            src="logo.png"
+                            width={150}
                             alt="logo"
                         />
                         <button className="close-btn" onClick={toggleMobileNav}>

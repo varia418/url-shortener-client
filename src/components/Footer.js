@@ -6,10 +6,9 @@ function Footer() {
             <div className="flex">
                 <div className="basis-2/6">
                     <img
-                        src="https://shuffle.dev/zeus-assets/logo/logo-zeus-red.svg"
+                        src="logo.png"
                         className="mb-2"
-                        width={70}
-                        height={70}
+                        width={150}
                         alt="logo"
                     />
                     <p className="text-slate-400 my-5 lg:pr-32 mt-0 text-sm sm:text-base">
