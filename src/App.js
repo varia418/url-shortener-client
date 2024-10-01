@@ -1,14 +1,12 @@
 import './App.css';
-import Button from './components/Button';
-import Input from './components/Input';
+import Header from './components/Header';
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
                 <div>
-                    <Input type="text" label="Username" />
-                    <Button label="Submit" />
+                    <Header />
                 </div>
             </header>
         </div>
