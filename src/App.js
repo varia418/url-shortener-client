@@ -2,8 +2,10 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Input from './components/Input';
 import Button from './components/Button';
+import { useState } from 'react';
 
 function App() {
+    const [errorMessage, setErrorMessage] = useState("Please enter a valid URL.");
     return (
         <main className="container mx-auto px-4 min-h-screen flex flex-col">
             <Header />
@@ -17,6 +19,7 @@ function App() {
                     <Input type="password" label="Password Protection (optional)" />
                     <Input type="date" label="Link Expiration (optional)" />
                     <Button label="Shorten URL" />
+                    {errorMessage && <p class="mt-2 text-md text-red-500 font-medium">{errorMessage}</p>}
                 </form>
             </div>
 
