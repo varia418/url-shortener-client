@@ -14,9 +14,9 @@ function App() {
 
             <div class="w-full max-w-lg m-auto">
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <Input type="text" label="Destination URL" isRequired={true} />
-                    <Input type="text" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" />
-                    <Input type="password" label="Password Protection (optional)" />
+                    <Input type="text" label="Destination URL" placeholder="Enter your long URL" isRequired={true} />
+                    <Input type="text" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" placeholder="Enter your custom short code" />
+                    <Input type="password" label="Password Protection (optional)" placeholder="Enter password" />
                     <Input type="date" label="Link Expiration (optional)" />
                     <Button label="Shorten URL" />
                     {errorMessage && <p class="mt-2 text-md text-red-500 font-medium">{errorMessage}</p>}
