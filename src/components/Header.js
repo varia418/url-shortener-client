@@ -10,12 +10,13 @@ function Header() {
     return (
         <>
             <nav className="flex justify-between p-7">
-                <img
-                    src="logo.png"
-                    width={150}
-                    alt="logo"
-                />
-
+                <a href="/">
+                    <img
+                        src="logo.png"
+                        width={150}
+                        alt="logo"
+                    />
+                </a>
                 <ul className="hidden md:flex gap-5 mr-5 ml-auto items-center">
                     <li>About</li>
                     <li>Company</li>
