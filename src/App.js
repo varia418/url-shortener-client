@@ -5,9 +5,9 @@ import Button from './components/Button';
 import { useState } from 'react';
 import FeatureCard from './components/FeatureCard';
 import ResultSnackbar from './components/ResultSnackbar';
+import { useLocation } from 'react-router-dom'
 
 function App() {
-    const [errorMessage, setErrorMessage] = useState("Please enter a valid URL.");
     const features = [
         {
             title: 'Free To Use',
@@ -29,7 +29,15 @@ function App() {
             description: 'Choose when your links should expire, so you can control who can access them and when!',
             icon: "icons/calendar.png"
         }
-    ]
+    ];
+    const [errorMessage, setErrorMessage] = useState("Please enter a valid URL.");
+    const location = useLocation();
+
+    if (location.pathname.length > 1) {
+        const shortCode = location.pathname.substring(1)
+        console.log(shortCode);
+    }
+
 
     return (
         <main className="container mx-auto px-4 min-h-screen flex flex-col">
@@ -56,7 +64,7 @@ function App() {
                     <FeatureCard key={index} title={feature.title} description={feature.description} icon={feature.icon} />
                 ))}
             </div>
-            
+
             <Footer />
         </main>
     );
