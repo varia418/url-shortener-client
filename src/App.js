@@ -59,7 +59,7 @@ function App() {
 
             <ResultSnackbar url="https://url-shortener.varia.id.vn/3je7h4z2" />
 
-            <div class="w-fit mx-auto grid grid-cols-2 gap-8 mt-20">
+            <div class="w-fit mx-auto grid sm:grid-cols-2 gap-8 mt-20">
                 {features.map((feature, index) => (
                     <FeatureCard key={index} title={feature.title} description={feature.description} icon={feature.icon} />
                 ))}
