@@ -2,10 +2,23 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Input from './components/Input';
 import Button from './components/Button';
-import { useState } from 'react';
 import FeatureCard from './components/FeatureCard';
 import ResultSnackbar from './components/ResultSnackbar';
 import { useLocation } from 'react-router-dom'
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const schema = yup
+    .object({
+        destination: yup.string().transform(v => /^https?:\/\//.exec(v) ? v : `https://${v}`).url("Invalid URL").required("Destination URL is required"),
+        customUrl: yup.string().max(255, "Custom URL cannot be longer than 255 characters").nullable(),
+        password: yup.string().nullable(),
+        expirationDate: yup.date().nullable().transform(v => (v instanceof Date && !isNaN(v) ? v : null)).min(today, "Date cannot be in the past"),
+    })
+    .required()
 
 function App() {
     const features = [
@@ -30,8 +43,16 @@ function App() {
             icon: "icons/calendar.png"
         }
     ];
-    const [errorMessage, setErrorMessage] = useState("Please enter a valid URL.");
     const location = useLocation();
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
+
+    const onSubmit = (data) => console.log(data)
 
     if (location.pathname.length > 1) {
         const shortCode = location.pathname.substring(1)
@@ -46,13 +67,15 @@ function App() {
             <p className="mb-16 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 text-center">URL Shortener makes long links look cleaner and easier to share!</p>
 
             <div class="w-full max-w-lg m-auto">
-                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <Input type="text" label="Destination URL" placeholder="Enter your long URL" isRequired={true} />
-                    <Input type="text" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" placeholder="Enter your custom short code" />
-                    <Input type="password" label="Password Protection (optional)" placeholder="Enter password" />
-                    <Input type="date" label="Link Expiration (optional)" />
+                <form onSubmit={handleSubmit(onSubmit)} class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                    <Input type="text" name="destination" label="Destination URL" placeholder="Enter your long URL" isRequired={true} register={register} />
+                    {errors.destination && <p class="mt-2 text-md text-red-500 font-medium">{errors.destination.message}</p>}
+                    <Input type="text" name="customUrl" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" placeholder="Enter your custom short code" register={register} />
+                    {errors.customUrl && <p class="mt-2 text-md text-red-500 font-medium">{errors.customUrl.message}</p>}
+                    <Input type="password" name="password" label="Password Protection (optional)" placeholder="Enter password" register={register} />
+                    <Input type="date" name="expirationDate" label="Link Expiration (optional)" register={register} />
+                    {errors.expirationDate && <p class="mt-2 text-md text-red-500 font-medium">{errors.expirationDate.message}</p>}
                     <Button label="Shorten URL" />
-                    {errorMessage && <p class="mt-2 text-md text-red-500 font-medium">{errorMessage}</p>}
                 </form>
             </div>
 
