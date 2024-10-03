@@ -38,7 +38,6 @@ function App() {
         console.log(shortCode);
     }
 
-
     return (
         <main className="container mx-auto px-4 min-h-screen flex flex-col">
             <Header />
