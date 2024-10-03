@@ -52,7 +52,10 @@ function App() {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+        console.log(data);
+
+    }
 
     if (location.pathname.length > 1) {
         const shortCode = location.pathname.substring(1)
@@ -66,22 +69,22 @@ function App() {
             <h1 className="mt-20 mb-4 text-4xl font-extrabold leading-none tracking-tight text-blue-600 md:text-5xl lg:text-6xl text-center">Create Short URLs</h1>
             <p className="mb-16 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 text-center">URL Shortener makes long links look cleaner and easier to share!</p>
 
-            <div class="w-full max-w-lg m-auto">
-                <form onSubmit={handleSubmit(onSubmit)} class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div className="w-full max-w-lg m-auto">
+                <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <Input type="text" name="destination" label="Destination URL" placeholder="Enter your long URL" isRequired={true} register={register} />
-                    {errors.destination && <p class="mt-2 text-md text-red-500 font-medium">{errors.destination.message}</p>}
+                    {errors.destination && <p className="mt-2 text-md text-red-500 font-medium">{errors.destination.message}</p>}
                     <Input type="text" name="customUrl" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" placeholder="Enter your custom short code" register={register} />
-                    {errors.customUrl && <p class="mt-2 text-md text-red-500 font-medium">{errors.customUrl.message}</p>}
+                    {errors.customUrl && <p className="mt-2 text-md text-red-500 font-medium">{errors.customUrl.message}</p>}
                     <Input type="password" name="password" label="Password Protection (optional)" placeholder="Enter password" register={register} />
                     <Input type="date" name="expirationDate" label="Link Expiration (optional)" register={register} />
-                    {errors.expirationDate && <p class="mt-2 text-md text-red-500 font-medium">{errors.expirationDate.message}</p>}
+                    {errors.expirationDate && <p className="mt-2 text-md text-red-500 font-medium">{errors.expirationDate.message}</p>}
                     <Button label="Shorten URL" />
                 </form>
             </div>
 
             <ResultSnackbar url="https://url-shortener.varia.id.vn/3je7h4z2" />
 
-            <div class="w-fit mx-auto grid sm:grid-cols-2 gap-8 mt-20">
+            <div className="w-fit mx-auto grid sm:grid-cols-2 gap-8 mt-20">
                 {features.map((feature, index) => (
                     <FeatureCard key={index} title={feature.title} description={feature.description} icon={feature.icon} />
                 ))}

@@ -2,9 +2,9 @@ import React from 'react'
 
 function Input({ type, name, label, placeholder, register, isRequired = false, prefix = '' }) {
     return (
-        <div class="mt-4">
-            <label for="large-input" class="block mb-2 text-md font-medium text-gray-900">{label}</label>
-            <div class="flex flex-col gap-2 sm:items-center sm:flex-row">
+        <div className="mt-4">
+            <label htmlFor="large-input" className="block mb-2 text-md font-medium text-gray-900">{label}</label>
+            <div className="flex flex-col gap-2 sm:items-center sm:flex-row">
                 {prefix && <span className='text-nowrap'>{prefix}</span>}
                 <input
                     type={type}

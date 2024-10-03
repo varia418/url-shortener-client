@@ -17,7 +17,7 @@ function Footer() {
                     <div className="flex gap-4 text-slate-400">
                         <div>
                             <svg
-                                class="w-4 h-4"
+                                className="w-4 h-4"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor"
@@ -32,7 +32,7 @@ function Footer() {
                         </div>
                         <div>
                             <svg
-                                class="w-4 h-4"
+                                className="w-4 h-4"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor"
@@ -47,7 +47,7 @@ function Footer() {
                         </div>
                         <div>
                             <svg
-                                class="w-4 h-4"
+                                className="w-4 h-4"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor"

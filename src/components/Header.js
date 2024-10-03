@@ -45,7 +45,7 @@ function Header() {
                     className="backdrop fixed inset-0 bg-gray-800 opacity-25"
                     onClick={toggleMobileNav}
                 ></div>
-                <sidebar className="md:hidden fixed flex flex-col justify-between inset-0 bg-white w-5/6 p-5">
+                <aside className="md:hidden fixed flex flex-col justify-between inset-0 bg-white w-5/6 p-5">
                     <div className="flex justify-between mb-7">
                         <img
                             src="logo.png"
@@ -84,7 +84,7 @@ function Header() {
                     <span className="mt-3 text-sm text-center text-gray-500">
                         @ 2023 All rights reserved.
                     </span>
-                </sidebar>
+                </aside>
             </div>
         </>
     );
