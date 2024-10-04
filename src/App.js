@@ -96,7 +96,7 @@ function App() {
                 </form>
             </div>
 
-            {shortenedUrl && <ResultSnackbar url={shortenedUrl} />}
+            {shortenedUrl && <ResultSnackbar url={shortenedUrl} onClose={() => setShortenedUrl("")} />}
 
             <div className="w-fit mx-auto grid sm:grid-cols-2 gap-8 mt-20">
                 {features.map((feature, index) => (
