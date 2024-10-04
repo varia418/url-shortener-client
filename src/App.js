@@ -14,9 +14,9 @@ today.setHours(0, 0, 0, 0);
 const schema = yup
     .object({
         destination: yup.string().transform(v => /^https?:\/\//.exec(v) ? v : `https://${v}`).url("Invalid URL").required("Destination URL is required"),
-        customUrl: yup.string().max(255, "Custom URL cannot be longer than 255 characters").nullable(),
+        customShortCode: yup.string().max(255, "Custom URL cannot be longer than 255 characters").nullable(),
         password: yup.string().nullable(),
-        expirationDate: yup.date().nullable().transform(v => (v instanceof Date && !isNaN(v) ? v : null)).min(today, "Date cannot be in the past"),
+        expirationDate: yup.date().nullable().transform(v => (v instanceof Date && !isNaN(v) ? v.setHours(23, 59, 59, 999) && v : null)).min(today, "Date cannot be in the past"),
     })
     .required()
 
@@ -52,8 +52,19 @@ function App() {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        if (data.expirationDate) {
+            data.expirationDate = data.expirationDate.getTime();
+        }
+        console.log("🚀 ~ onSubmit ~ data:", data)
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shorten-url`, { method: "post", body: JSON.stringify(data) });
+        if (res.status === 201) {
+            // show toast
+        }
+        else {
+            const body = await res.json();
+            console.log("🚀 ~ onSubmit ~ body:", body)
+        }
 
     }
 
@@ -73,8 +84,8 @@ function App() {
                 <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <Input type="text" name="destination" label="Destination URL" placeholder="Enter your long URL" isRequired={true} register={register} />
                     {errors.destination && <p className="mt-2 text-md text-red-500 font-medium">{errors.destination.message}</p>}
-                    <Input type="text" name="customUrl" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" placeholder="Enter your custom short code" register={register} />
-                    {errors.customUrl && <p className="mt-2 text-md text-red-500 font-medium">{errors.customUrl.message}</p>}
+                    <Input type="text" name="customShortCode" label="Custom URL (optional)" prefix="url-shortener.varia.id.vn/" placeholder="Enter your custom short code" register={register} />
+                    {errors.customShortCode && <p className="mt-2 text-md text-red-500 font-medium">{errors.customShortCode.message}</p>}
                     <Input type="password" name="password" label="Password Protection (optional)" placeholder="Enter password" register={register} />
                     <Input type="date" name="expirationDate" label="Link Expiration (optional)" register={register} />
                     {errors.expirationDate && <p className="mt-2 text-md text-red-500 font-medium">{errors.expirationDate.message}</p>}
