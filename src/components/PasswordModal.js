@@ -1,7 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
+import Input from './Input'
+import { useForm } from 'react-hook-form';
 
-function PasswordModal({ onClose }) {
+function PasswordModal({ shortCode, onClose }) {
+    const {
+        handleSubmit,
+        register,
+        setError,
+        formState: { errors },
+    } = useForm();
+
+    const onSubmit = async (data) => {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-destination`, { method: "post", body: JSON.stringify({ shortCode, password: data.password }) });
+        const body = await res.json();
+        if (res.status === 200) {
+            window.location.replace(body.destination);
+        } else {
+            setError('password', { type: 'custom', message: body.message });
+        }
+    }
+
     return (
         <div id="authentication-modal" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full backdrop-brightness-50">
             <div className="relative top-1/4 p-4 w-full max-w-md max-h-full mx-auto">
@@ -18,13 +37,11 @@ function PasswordModal({ onClose }) {
                         </button>
                     </div>
                     <div className="p-4 md:p-5">
-                        <form className="space-y-4" action="#">
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <p className="text-sm text-gray-500">This URL is protected with a password. Please enter your password to continue.</p>
-                            <div>
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
-                            </div>
-                            <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                            <Input type="password" name="password" label="Password" placeholder="Enter password" register={register} />
+                            {errors.password && <p className="text-md text-red-500 font-medium">{errors.password.message}</p>}
+                            <button type="submit" className="mt-4 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
                         </form>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -58,6 +58,7 @@ function App() {
     const [shortenedUrl, setShortenedUrl] = useState("");
     const [passwordModalOpen, setPasswordModalOpen] = useState(false);
     const [popupModalOpen, setPopupModalOpen] = useState(false);
+    const shortCode = location.pathname.substring(1);
 
     const onSubmit = async (data) => {
         if (data.expirationDate) {
@@ -75,11 +76,11 @@ function App() {
         }
     }
 
-    const redirectToDestination = async (shortCode) => {
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/destination?` + new URLSearchParams({ shortCode }), { method: "get" });
+    const redirectToDestination = async () => {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/get-destination`, { method: "post", body: JSON.stringify({ shortCode }) });
 
-        const body = await res.json();
         if (res.status === 200) {
+            const body = await res.json();
             window.location.replace(body.destination);
         }
         else if (res.status === 401) {
@@ -88,14 +89,13 @@ function App() {
         else {
             setPopupModalOpen(true);
         }
-
-        return body.destination;
     }
 
-    if (location.pathname.length > 1) {
-        const shortCode = location.pathname.substring(1);
-        redirectToDestination(shortCode);
-    }
+    useEffect(() => {
+        if (shortCode) {
+            redirectToDestination();
+        }
+    }, []);
 
     return (
         <main className="container mx-auto px-4 min-h-screen flex flex-col">
@@ -127,7 +127,7 @@ function App() {
 
             <Footer />
 
-            {passwordModalOpen && <PasswordModal onClose={() => { setPasswordModalOpen(false); window.location.href = "/"; }} />}
+            {passwordModalOpen && <PasswordModal shortCode={shortCode} onClose={() => { setPasswordModalOpen(false); window.location.href = "/"; }} />}
             {popupModalOpen && <PopupModal onClose={() => { setPopupModalOpen(false); window.location.href = "/"; }} />}
         </main>
     );
