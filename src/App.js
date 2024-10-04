@@ -16,7 +16,7 @@ const schema = yup
         destination: yup.string().transform(v => /^https?:\/\//.exec(v) ? v : `https://${v}`).url("Invalid URL").required("Destination URL is required"),
         customShortCode: yup.string().max(255, "Custom URL cannot be longer than 255 characters").nullable(),
         password: yup.string().nullable(),
-        expirationDate: yup.date().nullable().transform(v => (v instanceof Date && !isNaN(v) ? v.setHours(23, 59, 59, 999) && v : null)).min(today, "Date cannot be in the past"),
+        expirationDate: yup.date().nullable().transform(v => (v instanceof Date && !isNaN(v) ? v.setHours(23, 59, 59) && v : null)).min(today, "Date cannot be in the past"),
     })
     .required()
 
