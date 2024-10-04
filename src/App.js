@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { useState } from 'react';
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -47,25 +48,27 @@ function App() {
     const {
         handleSubmit,
         register,
+        setError,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
+    const [shortenedUrl, setShortenedUrl] = useState("");
 
     const onSubmit = async (data) => {
         if (data.expirationDate) {
             data.expirationDate = data.expirationDate.getTime();
         }
-        console.log("🚀 ~ onSubmit ~ data:", data)
+
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/shorten-url`, { method: "post", body: JSON.stringify(data) });
+        const body = await res.json();
+
         if (res.status === 201) {
-            // show toast
+            setShortenedUrl(`${window.location.origin}/${body.shortCode}`)
         }
         else {
-            const body = await res.json();
-            console.log("🚀 ~ onSubmit ~ body:", body)
+            setError(body.field, { type: 'custom', message: body.message });
         }
-
     }
 
     if (location.pathname.length > 1) {
@@ -93,7 +96,7 @@ function App() {
                 </form>
             </div>
 
-            <ResultSnackbar url="https://url-shortener.varia.id.vn/3je7h4z2" />
+            {shortenedUrl && <ResultSnackbar url={shortenedUrl} />}
 
             <div className="w-fit mx-auto grid sm:grid-cols-2 gap-8 mt-20">
                 {features.map((feature, index) => (
