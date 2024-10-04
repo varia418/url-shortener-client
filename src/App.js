@@ -4,6 +4,8 @@ import Input from './components/Input';
 import Button from './components/Button';
 import FeatureCard from './components/FeatureCard';
 import ResultSnackbar from './components/ResultSnackbar';
+import PasswordModal from './components/PasswordModal';
+import PopupModal from './components/PopupModal';
 import { useLocation } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -54,6 +56,8 @@ function App() {
         resolver: yupResolver(schema),
     });
     const [shortenedUrl, setShortenedUrl] = useState("");
+    const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+    const [popupModalOpen, setPopupModalOpen] = useState(false);
 
     const onSubmit = async (data) => {
         if (data.expirationDate) {
@@ -71,9 +75,26 @@ function App() {
         }
     }
 
+    const redirectToDestination = async (shortCode) => {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/destination?` + new URLSearchParams({ shortCode }), { method: "get" });
+
+        const body = await res.json();
+        if (res.status === 200) {
+            window.location.replace(body.destination);
+        }
+        else if (res.status === 401) {
+            setPasswordModalOpen(true);
+        }
+        else {
+            setPopupModalOpen(true);
+        }
+
+        return body.destination;
+    }
+
     if (location.pathname.length > 1) {
-        const shortCode = location.pathname.substring(1)
-        console.log(shortCode);
+        const shortCode = location.pathname.substring(1);
+        redirectToDestination(shortCode);
     }
 
     return (
@@ -105,6 +126,9 @@ function App() {
             </div>
 
             <Footer />
+
+            {passwordModalOpen && <PasswordModal onClose={() => { setPasswordModalOpen(false); window.location.href = "/"; }} />}
+            {popupModalOpen && <PopupModal onClose={() => { setPopupModalOpen(false); window.location.href = "/"; }} />}
         </main>
     );
 }
