@@ -7,10 +7,11 @@ import ResultSnackbar from './components/ResultSnackbar';
 import PasswordModal from './components/PasswordModal';
 import PopupModal from './components/PopupModal';
 import { useLocation } from 'react-router-dom'
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useEffect, useState } from 'react';
+import LoadingIndicator from './components/LoadingIndicator';
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -58,9 +59,12 @@ function App() {
     const [shortenedUrl, setShortenedUrl] = useState("");
     const [passwordModalOpen, setPasswordModalOpen] = useState(false);
     const [popupModalOpen, setPopupModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const shortCode = location.pathname.substring(1);
 
     const onSubmit = async (data) => {
+        setLoading(true);
+
         if (data.expirationDate) {
             data.expirationDate = data.expirationDate.getTime();
         }
@@ -74,6 +78,8 @@ function App() {
         else {
             setError(body.field, { type: 'custom', message: body.message });
         }
+
+        setLoading(false);
     }
 
     const redirectToDestination = async () => {
@@ -129,6 +135,8 @@ function App() {
 
             {passwordModalOpen && <PasswordModal shortCode={shortCode} onClose={() => { setPasswordModalOpen(false); window.location.href = "/"; }} />}
             {popupModalOpen && <PopupModal onClose={() => { setPopupModalOpen(false); window.location.href = "/"; }} />}
+
+            {loading && <LoadingIndicator />}
         </main>
     );
 }
