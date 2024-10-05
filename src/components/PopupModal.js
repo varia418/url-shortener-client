@@ -2,7 +2,7 @@ import React from 'react'
 
 function PopupModal({ onClose }) {
     return (
-        <div id="popup-modal" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full backdrop-brightness-50">
+        <div id="popup-modal" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full backdrop-brightness-50">
             <div className="relative top-1/4 mx-auto p-4 w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow">
                     <button type="button" onClick={onClose} className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="popup-modal">
