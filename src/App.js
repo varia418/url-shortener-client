@@ -7,7 +7,7 @@ import ResultSnackbar from './components/ResultSnackbar';
 import PasswordModal from './components/PasswordModal';
 import PopupModal from './components/PopupModal';
 import { useLocation } from 'react-router-dom'
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useEffect, useState } from 'react';
@@ -23,6 +23,8 @@ const schema = yup
         expirationDate: yup.date().nullable().transform(v => (v instanceof Date && !isNaN(v) ? v.setHours(23, 59, 59) && v : null)).min(today, "Date cannot be in the past"),
     })
     .required()
+
+let didInit = false;
 
 function App() {
     const features = [
@@ -98,9 +100,14 @@ function App() {
     }
 
     useEffect(() => {
-        if (shortCode) {
-            redirectToDestination();
+        if (!didInit) {
+            didInit = true;
+            // only runs once per app load
+            if (shortCode) {
+                redirectToDestination();
+            }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
