@@ -1,70 +1,85 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Introduction
+This application is designed to shorten URLs and is developed as part of a take-home technical assessment. You can view a live version at [URL Shortener](https://url-shortener.varia.id.vn).
+## Getting Started
+### Prerequisites
+- [Node.js](https://nodejs.org/)
+- [MySQL](https://www.mysql.com/)
+### Running the Project Locally
+Follow the steps below to run both the client and API server on your local machine:
+1. Clone the client and API server repositories:
+```sh
+git clone https://github.com/varia418/url-shortener-client.git
+git clone https://github.com/varia418/url-shortener-api.git
+```
+2. Navigate to the API server folder and create a `.env` file based on the `.env.example` file:
+```sh
+cd url-shortener-api
+cp .env.example .env
+nano .env
+# then fill the variable with your configuration details
+```
+3. Install dependencies and set up the database:
+```sh
+npm install
+npm run db:generate
+npm run db:migrate
+```
+4. Run the API server
+```sh
+npm run dev
+```
+5. Set up and serve the client:
+```sh
+# open a new terminal window
+cd url-shortener-client
+npm install
+npm install -g serve
+serve -s build
+```
+Your client should now be available at `http://localhost:3000` by default.
+## Technology Stack
+### Frontend
+- **React:** Chosen for its rich ecosystem, developer-friendly tools, and the requirement of this assessment.
+### Backend
+- **Hono Framework:** A lightweight and fast web framework suitable for building small applications like this URL shortener.
+### Database
+- **MySQL:** Used for its familiarity and ease of integration.
+## Completed features 
+### Core requirements 
+#### Frontend 
+- [x] Implement a form to submit long URLs 
+- [x] Display the generated short URL after submission 
+- [x] Include a "Copy to Clipboard" button for the short URL 
+- [x] Implement basic styling for a clean, responsive design 
+#### Backend 
+- [x] Create an API endpoint to receive long URLs and return shortened versions 
+- [x] Implement a redirect service to handle requests for shortened URLs 
+- [x] Generate unique short codes for each submitted URL 
+- [x] Allow duplicate long URLs (each submission should create a new short URL) 
+#### Database 
+- [x] Store mappings between short codes and original URLs 
+- [x] Save creation dates for each shortened URL 
+#### Deployment 
+- [x] Deploy the application to a publicly accessible platform 
+- [x] Provide instructions for running the project locally 
+### Nice-to-have features 
+- [x] Password Protection: Allow users to set a password for accessing certain shortened URLs 
+- [x] URL Expiry Date: Enable users to set an expiration date for shortened URLs 
+- [x] Custom Short Codes: Allow users to specify their own custom short codes
+## Future Improvements
+- Implement URL banning to block malicious URLs.
+- Add CAPTCHA verification to prevent bots from spamming.
+- Track and analyze URL accesses, including:
+    - Total clicks.
+    - Clicks over time.
+    - Clicks by geography, device language, device type, OS, and browser.
+- Store user history of shortened URLs.
+- Display the favicon of shortened URLs (using [icon.horse](https://icon.horse/icon/medium.com)).
+- Allow bulk import of URLs via CSV.
+- Implement URL expiration based on view count.
+## Attributions
+This project uses the following resources:
+- [No cash icons](https://www.flaticon.com/free-icons/no-cash) created by alfanz - Flaticon.
+- [Caps lock icons](https://www.flaticon.com/free-icons/caps-lock) created by Rahul Kaklotar - Flaticon.
+- [Pencil icons](https://www.flaticon.com/free-icons/pencil) created by Sympnoiaicon - Flaticon.
+- [Calendar icons](https://www.flaticon.com/free-icons/calendar) created by Septiana Faza - Flaticon.
